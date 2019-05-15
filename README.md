@@ -1,2 +1,2 @@
 # TopHackerNews
-Hacker News Visualization APp
+Hacker News Visualization App
