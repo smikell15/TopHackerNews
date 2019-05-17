@@ -36,6 +36,13 @@ export class FetchData extends Component {
         return (
             <div>
                 <h1>Today's Top Stories</h1>
+                <div className={"form-group"}>
+                    <label for={"searchBar"}>Search</label>
+                    <input type={"text"} className={"form-control"} id={"searchBar"} aria-describedby={"emailHelp"} placeholder={"Search"} />
+                </div>
+                <div className={"form-group"}>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
                 {contents}
             </div>
         );

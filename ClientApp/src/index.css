@@ -109,6 +109,10 @@
 
 .card-title {
   margin-bottom: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
 }
 
 .card-subtitle {
