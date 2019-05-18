@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 
-export class FetchData extends Component {
-    displayName = FetchData.name
+export class ItemGrid extends Component {
+    displayName = ItemGrid.name
 
     constructor(props) {
         super(props);
-        this.state = { stories: [], loading: true };
+        this.state = { initialStories: [], stories: [], loading: true };
+
+        this.doSearch = this.doSearch.bind(this);
 
         fetch('api/HackerNews/bestStories')
             .then(response => response.json())
             .then(data => {
-                this.setState({ stories: data, loading: false });
+                this.setState({ initialStories: data, stories: data, loading: false });
             });
     }
 
     static renderItemCard(item) {
         return (
-            <div className={"col-sm-4"}>
+            <div className={"col-sm-4"} key={item.id}>
                 <div className={"card"}>
                     <div className={"card-body"}>
                         <h5 className={"card-title"}>{item.title}</h5>
@@ -28,23 +30,30 @@ export class FetchData extends Component {
         );
     }
 
+    doSearch(e) {
+        var searchVal = e.target.value || '';
+        this.setState({
+            stories: this.state.initialStories.filter(function (item) {
+                return item.title.includes(searchVal) || item.by.includes(searchVal);
+            })
+        });
+    }
+
     render() {
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : this.state.stories.map(story => FetchData.renderItemCard(story));
+            : this.state.stories.map(story => ItemGrid.renderItemCard(story));
 
         return (
             <div>
                 <h1>Today's Top Stories</h1>
                 <div className={"form-group"}>
-                    <label for={"searchBar"}>Search</label>
-                    <input type={"text"} className={"form-control"} id={"searchBar"} aria-describedby={"emailHelp"} placeholder={"Search"} />
-                </div>
-                <div className={"form-group"}>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div className={"col-sm-12"}>
+                        <input type={"text"} className={"form-control"} id={"searchBar"} placeholder={"Search"} onChange={this.doSearch} />
+                    </div>
                 </div>
                 {contents}
-            </div>
+            </div >
         );
     }
 }
